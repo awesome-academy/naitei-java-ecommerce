@@ -18,7 +18,7 @@ public interface UserService extends BaseService<Integer, User> {
 
 	public boolean checkUsernameExist(String username);
 	
-	public boolean saveBatch(List<User> users);
+	public List<Integer> saveBatch(List<User> users);
 
 	public List<User> convertToUsers(List<UserInfo> listUserInfo);
 	

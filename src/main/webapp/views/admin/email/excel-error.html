@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Excel error email</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <h4 style="font-weight: bold;">Import users file have errors. </h4>
+    <p th:text="${message}"></p>
+    <div>
+        <span style="font-weight: bold;">File name:</span>
+        <span th:text="${filename}" style="margin-left: 10px;"></span>
+    </div>
+    <div>
+        <span style="font-weight: bold;">Imported by: </span>
+        <span th:text="${fullname}" style="margin-left: 10px;"></span>
+    </div>
+    <div>
+        <span style="font-weight: bold;">Imported at:</span>
+        <span th:text="${date}" style="margin-left: 10px;"></span>
+    </div>
+    <div th:unless="${linesError.empty}">
+        <p>
+            Please check in these lines.
+        </p>
+        <ul>
+            <li th:each="i : ${linesError}" th:text="'line: ' + ${i+2}"></li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

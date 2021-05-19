@@ -19,4 +19,6 @@ public interface ProductDAO extends BaseDAO<Integer, Product> {
 	List<Product> getDeletedProducts();
 
 	List<Product> search(boolean instock, Category category, BigDecimal priceFrom, BigDecimal priceTo);
+	
+	List<Product> searchDeleted(Category category, BigDecimal priceFrom, BigDecimal priceTo);
 }

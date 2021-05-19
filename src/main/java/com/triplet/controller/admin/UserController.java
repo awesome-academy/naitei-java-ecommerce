@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.triplet.bean.UserInfo;
 import com.triplet.model.User;
+import com.triplet.service.impl.MyUser;
 import com.triplet.utils.ExcelFileUtils;
 import com.triplet.utils.ExcelReportView;
 import com.triplet.validate.UserValidation;
@@ -29,8 +31,6 @@ import com.triplet.validate.UserValidation;
 @RequestMapping("/admin/users")
 public class UserController extends BaseController {
 
-
-
 	@Value("${msg_error_username_or_email}")
 	private String msg_error_username_or_email;
 
@@ -39,6 +39,9 @@ public class UserController extends BaseController {
 
 	@Value("${msg_error_file}")
 	private String msg_error_file;
+	
+	@Value("${msg_processing_file}")
+	private String msg_processing_file;
 
 	Logger logger = Logger.getLogger(UserController.class);
 
@@ -78,35 +81,41 @@ public class UserController extends BaseController {
 
 	@PostMapping(value = "/upload-excel")
 	public String uploadExcel(@RequestParam("file") MultipartFile file, final RedirectAttributes redirectAttributes) {
-		String typeCss = "error";
-		String message = "Error!! Can't save list of users, maybe username or email existed!";
+		String typeCss = "success";
+		String message = msg_processing_file;
 		if (!ExcelFileUtils.hasExcelFormat(file)) {
 			message = msg_error_file;
 			return handleRedirect(redirectAttributes, typeCss, message, "/admin/users");
 		}
-		try {
-			if (ImportExcelFile(file)) {
-				typeCss = "sucess";
-				message = "Import list of users successfully!!";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		ImportExcelFile(file);
 		return handleRedirect(redirectAttributes, typeCss, message, "/admin/users");
 	}
 
-	private boolean ImportExcelFile(MultipartFile file) {
+	@Async
+	private void ImportExcelFile(MultipartFile file) {
 		List<User> users = new ArrayList<User>();
 		List<UserInfo> listUserInfo = new ArrayList<>();
 		ExcelFileUtils excelFileUtil = new ExcelFileUtils();
+		List<Integer> linesError = new ArrayList<Integer>();
+		MyUser user = loadCurrentUser();
+		String message ="Invalid information in email, password or username";
+		
+		try {
+			listUserInfo = excelFileUtil.convertToUserInfos(file);
+			users = userService.convertToUsers(listUserInfo);
+		}
+		catch(Exception e){
+			emailService.sendImportExcelError(message, linesError, user.getFullname(), file.getOriginalFilename());
+			logger.error("Error in save file excel"+e);
+			return;
+		}
+		
+		linesError = userService.saveBatch(users);
 
-		listUserInfo = excelFileUtil.convertToUserInfos(file);
-		if (listUserInfo == null)
-			return false;
-		users = userService.convertToUsers(listUserInfo);
-		if (users == null)
-			return false;
-		return userService.saveBatch(users);
+		if(linesError.size()>0) {
+			message = "Email or username is existed";
+			emailService.sendImportExcelError(message, linesError, user.getFullname(), file.getOriginalFilename());
+		}
 	}
 
 	@GetMapping("/export-excel")

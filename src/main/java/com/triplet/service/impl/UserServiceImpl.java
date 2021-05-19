@@ -118,13 +118,15 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean saveBatch(List<User> users) {
+	public List<Integer> saveBatch(List<User> users) {
+		List<Integer> linesError = new ArrayList<Integer>();
 		try {
-			return getUserDAO().saveBatch(users);
+			linesError = getUserDAO().saveBatch(users);
 		} catch (Exception e) {
 			logger.error("Error in save batch of user: " + e.getMessage());
 			throw e;
 		}
+		return linesError;
 	}
 
 	public List<User> convertToUsers(List<UserInfo> listUserInfo) {

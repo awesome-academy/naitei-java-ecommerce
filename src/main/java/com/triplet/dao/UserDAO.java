@@ -15,7 +15,7 @@ public interface UserDAO extends BaseDAO<Integer, User> {
 
 	boolean checkUsernameExist(String username);
 
-	boolean saveBatch(List<User> users);
+	List<Integer> saveBatch(List<User> users);
 
 	List<User> loadUsers(Role role);
 }

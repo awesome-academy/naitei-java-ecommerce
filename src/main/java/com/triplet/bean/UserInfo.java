@@ -123,6 +123,7 @@ public class UserInfo {
 		user.setPassword(this.getPassword().trim());
 		user.setAvatar(this.getAvatar());
 		user.setPhone(this.getPhone());
+		user.setAddress(this.getAddress());
 
 		// Addresses's List to String
 		if (this.addresses != null) {

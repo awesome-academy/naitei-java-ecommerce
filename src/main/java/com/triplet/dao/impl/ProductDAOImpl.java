@@ -105,4 +105,32 @@ public class ProductDAOImpl extends GenericDAO<Integer, Product> implements Prod
 		query.orderBy(builder.desc(root.get("update_time")));
 		return getSession().createQuery(query).getResultList();
 	}
+
+	@Override
+	public List<Product> searchDeleted(Category category, BigDecimal priceFrom, BigDecimal priceTo) {
+		Session session = getSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Product> query = builder.createQuery(Product.class);
+		Root<Product> root = query.from(Product.class);
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		predicates.add(builder.isNotNull(root.get("delete_time"))); // active
+
+		if (category != null) {
+			predicates.add(builder.equal(root.get("category"), category));
+		}
+
+		if (priceFrom != null && priceTo != null) {
+			predicates.add(builder.between(root.get("price"), priceFrom, priceTo));
+		} else if (priceFrom != null) {
+			predicates.add(builder.gt(root.get("price"), priceFrom));
+		} else if (priceTo != null) {
+			predicates.add(builder.lt(root.get("price"), priceTo));
+		}
+
+		query.select(root).where(predicates.toArray(new Predicate[0]));
+		query.orderBy(builder.desc(root.get("update_time")));
+		return getSession().createQuery(query).getResultList();
+	}
 }

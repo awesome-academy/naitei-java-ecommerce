@@ -1,5 +1,6 @@
 package com.triplet.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -52,23 +53,23 @@ public class UserDAOImpl extends GenericDAO<Integer, User> implements UserDAO {
 	}
 
 	@Override
-	public boolean saveBatch(List<User> users) {
+	public List<Integer> saveBatch(List<User> users) {
 		int batchSize = 10;
 		int listSize = users.size();
 		Session session = getSession();
-		int i;
-		for (i = 0; i < listSize; i++) {
+		List<Integer> linesError = new ArrayList<Integer>();
+		for (int i = 0; i < listSize; i++) {
 			if (i > 0 && i % batchSize == 0) {
 				session.flush();
 				session.clear();
 			}
-			session.persist(users.get(i));
+			if (checkEmailExist(users.get(i).getEmail()) || checkUsernameExist(users.get(i).getUsername())) {
+				linesError.add(i);
+			} else {
+				session.persist(users.get(i));
+			}
 		}
-		if(i==listSize) {
-			logger.info("save batch successfully! i = "+i);
-			return true;
-		}
-		return false;
+		return linesError;
 	}
 
 	@SuppressWarnings("unchecked")

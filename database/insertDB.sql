@@ -6,7 +6,7 @@ INSERT INTO tripletclothes.users (fullname, username, email, avatar, phone, addr
 ('Nguyễn Phan Nhi','admin','nguyenphannhi@gmail.com','image-avatar-1.jpg',0532057275,'Số 45 đường Hàm Nghi TP Đà Nẵng','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG'),
 ('Trần Anh Tú','anhtu','trananhtu@gmail.com','image-avatar-2.jpg',0913436684,'Số 53 đường Võ Văn Kiệt TP Huế','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG'),
 ('Đặng Bùi Bảo','buibao','dangbuibao@gmail.com','image-avatar-3.jpg',0652559200,'Số 3 đường Ngô Tất Tố TP Hồ Chí Minh','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG'),
-('Võ Hoàng Yến','hoangyen','vohoangyen@gmail.com','image-avatar-4.jpg',0288545076,'Số 23 đường Nguyễn Huệ TP Hồ Chí Minh','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG'),
+('Bùi Thiên Phước','thienphuoc','thienphuoc@gmail.com','image-avatar-4.jpg',0288545076,'Số 23 đường Nguyễn Huệ TP Hồ Chí Minh','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG'),
 ('Đỗ Ngô Nhi','ngonhi','dongonhi@gmail.com','image-avatar-5.jpg',0288545076,'Số 23 đường Nguyễn Xuân Ôn TP Hà Nội','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG'),
 ('Võ Anh Vy','oanhvy','voanhvy@gmail.com','image-avatar-6.jpg',0598877847,'Số 50 đường 30 Tháng 4 TP Đà Nẵng','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG'),
 ('Võ Nguyễn Minh Dũng','minhdung','vonguyenminhdung@gmail.com','image-avatar-7.jpg',0964949562,'Số 22 đường Vũ Hữu TP Đà Nẵng','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG'),

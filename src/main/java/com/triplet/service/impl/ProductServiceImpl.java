@@ -128,7 +128,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 				products = getProductDAO().search(false, category, priceFrom, priceTo);
 				break;
 			default:
-				products = getDeletedProducts();
+				products = getProductDAO().searchDeleted(category, priceFrom, priceTo);
 				break;
 			}
 			return products;
@@ -137,4 +137,5 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 		}
 		return Collections.emptyList();
 	}
+
 }

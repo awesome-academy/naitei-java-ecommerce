@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,7 @@ public class ExcelFileUtils {
 		return true;
 	}
 
+	@Async
 	public List<UserInfo> convertToUserInfos(MultipartFile file) {
 		Workbook wb;
 		List<UserInfo> listUserInfo = new ArrayList<UserInfo>();
@@ -51,6 +53,7 @@ public class ExcelFileUtils {
 			Sheet sheet = wb.getSheetAt(0);
 			DataFormatter dataFormatter = new DataFormatter();
 			Iterator<Row> rowIterator = sheet.rowIterator();
+			Row header = rowIterator.next();
 			while (rowIterator.hasNext()) {
 				Row row = rowIterator.next();
 				Iterator<Cell> cellIterator = row.cellIterator();
